@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 
 import { useStoreModal } from "@/hooks/use-store-modal";
-import { Modal } from "@/components/Modal";
+import { Modal } from "@/components/modals/Modal";
 import { formSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -15,10 +16,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 export default function StoreModal() {
   const isOpen = useStoreModal((state) => state.isOpen);
   const onClose = useStoreModal((state) => state.onClose);
+
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,8 +33,18 @@ export default function StoreModal() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    // TODO: Create Store
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/stores", values);
+      if (!res) return null;
+      toast.success("Store created successfully");
+      // console.log(res.data);
+    } catch (error) {
+      toast.error("Something went wrong.");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,17 +63,23 @@ export default function StoreModal() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="E-commerce" />
+                  <Input
+                    {...field}
+                    placeholder="E-commerce"
+                    disabled={loading}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="p-6 space-x-2 flex items-center justify-end w-full">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} disabled={loading}>
               Cancel
             </Button>
-            <Button type="submit">Continue</Button>
+            <Button type="submit" disabled={loading}>
+              Continue
+            </Button>
           </div>
         </form>
       </Form>

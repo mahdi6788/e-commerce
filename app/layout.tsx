@@ -1,10 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 
 import ModalProvider from "@/providers/ModalProvider";
 import { geistMono, geistSans } from "@/lib/fonts";
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,15 +17,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <ModalProvider />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <>
+      <Toaster />
+      <ClerkProvider>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <ModalProvider />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </>
   );
 }
