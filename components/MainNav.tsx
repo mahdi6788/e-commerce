@@ -14,6 +14,11 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       href: `/${params.storeId}/settings`,
       isActive: pathname === `/${params.storeId}/settings`,
     },
+    {
+      label: "Overview",
+      href: `/${params.storeId}`,
+      isActive: pathname === `/${params.storeId}`,
+    }
   ];
   return (
     <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)}>

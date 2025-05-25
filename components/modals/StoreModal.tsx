@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { Modal } from "@/components/modals/Modal";
-import { formSchema } from "@/lib/zodSchema";
+import { formSchema, FormType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -25,7 +25,7 @@ export default function StoreModal() {
 
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
