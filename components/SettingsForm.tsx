@@ -8,12 +8,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/Heading";
-import { Separator } from "@/components/ui/Separator";
-import { formSchema, FormType } from "@/lib/zodSchema";
-import { Input } from "./ui/input";
-import AlertModal from "@/components/modals/AlertModal";
 import {
   Form,
   FormControl,
@@ -22,12 +16,21 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/Heading";
+import { Separator } from "@/components/ui/Separator";
+import { formSchema, FormType } from "@/lib/zodSchema";
+import { Input } from "@/components/ui/input";
+import AlertModal from "@/components/modals/AlertModal";
+import ApiAlert from "@/components/ApiAlert";
+import { useOrigin } from "@/hooks/use-origin";
 
 export default function SettingsForm({ initialData }: { initialData: Store }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -113,6 +116,13 @@ export default function SettingsForm({ initialData }: { initialData: Store }) {
           </Button>
         </form>
       </Form>
+      {/* Alert API */}
+      <Separator />
+      <ApiAlert
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/${params.storeId}`}
+        variant="public"
+      />
     </>
   );
 }
