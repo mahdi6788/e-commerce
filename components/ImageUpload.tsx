@@ -54,17 +54,14 @@ export default function ImageUpload({
           </div>
         ))}
       </div>
-      <CldUploadWidget onUploadAddedAction={onUpload} uploadPreset="storesImages">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="storesImages">
         {({ open }) => {
-          const onClick = () => {
-            open();
-          };
           return (
             <Button
               type="button"
               disabled={disabled}
               variant="secondary"
-              onClick={onClick}
+              onClick={()=>open()}
             >
               <ImagePlus className="h-4 w-4 mr-2" />
               Upload an image

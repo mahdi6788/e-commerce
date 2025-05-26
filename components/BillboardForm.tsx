@@ -22,7 +22,7 @@ import { Separator } from "@/components/ui/Separator";
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/AlertModal";
 import { z } from "zod";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "@/components/ImageUpload";
 
 const billboardSchema = z.object({
   label: z.string().min(1, "Required"),
@@ -55,9 +55,18 @@ export default function BillboardForm({
   const onSubmit = async (data: BillboardType) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+      // if there is billboard, update it
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
+      } else {
+        // if there is not, create a new billboard
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
       router.refresh();
-      toast.success(`${toastMessage}`);
+      toast.success(toastMessage);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -68,12 +77,17 @@ export default function BillboardForm({
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
       router.refresh();
       router.push("/");
+      toast.success("Billboard deleted");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you removed all products and categories first.");
+      toast.error(
+        "Make sure you removed all categories using this billboard first."
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -116,10 +130,11 @@ export default function BillboardForm({
               <FormItem>
                 <FormLabel>Background image</FormLabel>
                 <FormControl>
-                  <ImageUpload value={field.value ? [field.value] : []}
-                  disabled={loading}
-                  onChange={url => field.onChange(url)}
-                  onRemove={() => field.onChange("")}
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
                   />
                 </FormControl>
                 <FormMessage />
@@ -136,7 +151,7 @@ export default function BillboardForm({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Store name"
+                      placeholder="Billboard label"
                       {...field}
                     />
                   </FormControl>
