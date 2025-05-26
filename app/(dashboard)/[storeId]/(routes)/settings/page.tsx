@@ -7,16 +7,18 @@ import SettingsForm from "@/components/SettingsForm";
 export default async function SettingsPage({
   params,
 }: {
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }) {
   const { userId } = await auth();
 
   if (!userId) redirect("/sign-in");
 
+  const {storeId} = await params
+
   const stores = await prismadb.store.findFirst({
     where: {
       userId,
-      id: params.storeId,
+      id: storeId,
     },
   });
 
