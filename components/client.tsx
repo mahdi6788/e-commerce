@@ -1,16 +1,19 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
-import { useParams, useRouter } from "next/navigation";
-import { Billboard } from "@prisma/client";
+import { BillboardsColumnsType, columns } from "@/components/BillboardsColumns";
+import { Separator } from "@/components/ui/Separator";
+import { DataTable } from "@/components/ui/data-table";
+import { ApiList } from "@/components/api-list";
 
 export const BillboardClient = ({
   billboards,
 }: {
-  billboards: Billboard[];
+  billboards: BillboardsColumnsType[];
 }) => {
   const router = useRouter();
   const params = useParams();
@@ -30,6 +33,11 @@ export const BillboardClient = ({
           Add New
         </Button>
       </div>
+      <Separator />
+      <DataTable searchKey="label" columns={columns} data={billboards} />
+      <Heading title="API" description="API calls for Billboards"/>
+      <Separator/>
+      <ApiList entityName="billboards" entityIdName="billboardId"/>
     </>
   );
 };
