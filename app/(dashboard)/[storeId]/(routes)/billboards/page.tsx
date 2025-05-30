@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import { BillboardsColumnsType } from "@/components/BillboardsColumns";
-import { BillboardClient } from "@/components/client";
+import { BillboardClient } from "@/components/BillboardClient";
 import prismadb from "@/lib/prismadb";
 
 export default async function BillboardsPage({
