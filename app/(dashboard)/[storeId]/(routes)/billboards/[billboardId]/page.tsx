@@ -1,4 +1,4 @@
-import BillboardForm from "@/components/BillboardForm";
+import BillboardForm from "@/components/SizeForm";
 import prismadb from "@/lib/prismadb";
 
 export default async function NewBillboard({
