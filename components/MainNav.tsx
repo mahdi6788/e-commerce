@@ -30,6 +30,11 @@ export function MainNav({ className }: React.HTMLAttributes<HTMLElement>) {
       isActive: pathname === `/${params.storeId}/sizes`,
     },
     {
+      label: "Colors",
+      href: `/${params.storeId}/colors`,
+      isActive: pathname === `/${params.storeId}/colors`,
+    },
+    {
       label: "Settings",
       href: `/${params.storeId}/settings`,
       isActive: pathname === `/${params.storeId}/settings`,
