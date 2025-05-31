@@ -1,7 +1,7 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "@/components/cell-action-color";
+
+import { CellAction } from "@/components/color/cell-action-color";
 
 export type ColorsColumnsType = {
   id: string;

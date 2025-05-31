@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Size } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import { z } from "zod";
 
 import {
   Form,
@@ -15,55 +16,63 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/Heading";
 import { Separator } from "@/components/ui/Separator";
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/AlertModal";
-import { z } from "zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const sizeSchema = z.object({
+const categorySchema = z.object({
   name: z.string().min(1, "Required"),
-  value: z.string().min(1, "Required"),
+  billboardId: z.string().min(1)
 });
-type SizeType = z.infer<typeof sizeSchema>;
+type CategoryType = z.infer<typeof categorySchema>;
 
-export default function SizeForm({
+export default function CategoryForm({
   initialData,
+  billboards,
 }: {
-  initialData: Size | null;
+  initialData: Category | null;
+  billboards: Billboard[];
 }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const params = useParams();
   const router = useRouter();
 
-  const form = useForm<SizeType>({
-    resolver: zodResolver(sizeSchema),
-    defaultValues: initialData || { name: "", value: "" },
+  const form = useForm<CategoryType>({
+    resolver: zodResolver(categorySchema),
+    defaultValues: initialData || { name: "", billboardId:"" },
   });
 
-  const title = initialData ? "Edit size" : "Create size";
-  const description = initialData ? "Edit the size" : "Add a new size";
-  const toastMessage = initialData ? "size updated" : "size create";
+  const title = initialData ? "Edit category" : "Create category";
+  const description = initialData ? "Edit the category" : "Add a new category";
+  const toastMessage = initialData ? "Category updated" : "Category create";
   const action = initialData ? "Save changes" : "Create";
 
-  const onSubmit = async (data: SizeType) => {
+  const onSubmit = async (data: CategoryType) => {
     try {
       setLoading(true);
-      // if there is size, update it
+      // if there is category, update it
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeId}/sizes/${params.sizeId}`,
+          `/api/${params.storeId}/categories/${params.categoryId}`,
           data
         );
       } else {
-        // if there is not, create a new size
-        await axios.post(`/api/${params.storeId}/sizes`, data);
+        // if there is not, create a new category
+        await axios.post(`/api/${params.storeId}/categories`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
+      router.push(`/${params.storeId}/categories`);
       toast.success(toastMessage);
     } catch (error) {
       console.log(error);
@@ -75,13 +84,17 @@ export default function SizeForm({
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
+      await axios.delete(
+        `/api/${params.storeId}/categories/${params.categoryId}`
+      );
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
-      toast.success("size deleted");
+      router.push(`/${params.storeId}/categories`);
+      toast.success("Category deleted");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you removed all products using this size first.");
+      toast.error(
+        "Make sure you removed all products using this category first."
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -127,7 +140,7 @@ export default function SizeForm({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="size label"
+                      placeholder="Category name"
                       {...field}
                     />
                   </FormControl>
@@ -137,17 +150,32 @@ export default function SizeForm({
             />
             <FormField
               control={form.control}
-              name="value"
+              name="billboardId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Value</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="size label"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel>Billboard</FormLabel>
+                  <Select
+                    disabled={loading}
+                    value={field.value}
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a billboard"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

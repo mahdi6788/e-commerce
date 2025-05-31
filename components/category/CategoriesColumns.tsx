@@ -1,23 +1,24 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "@/components/cell-action-size";
+import { CellAction } from "@/components/category/cell-action-category";
 
-export type SizesColumnsType = {
+export type CategoriesColumnsType = {
   id: string;
   name: string;
-  value: string;
+  billboardLabel: string;
   createdAt: string;
 };
 
-export const SizesColumns: ColumnDef<SizesColumnsType>[] = [
+export const CategoriesColumns: ColumnDef<CategoriesColumnsType>[] = [
   {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "value",
-    header: "Value",
+    accessorKey: "billboard",
+    header:"Billboard",
+    cell:({row}) => row.original.billboardLabel
   },
   {
     accessorKey: "createdAt",

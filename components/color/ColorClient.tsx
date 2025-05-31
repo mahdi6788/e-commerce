@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/Separator";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/api-list";
-import { ColorsColumns, ColorsColumnsType } from "@/components/ColorsColumns";
+import { ColorsColumns, ColorsColumnsType } from "@/components/color/ColorsColumns";
 
 export const ColorClient = ({
   colors,

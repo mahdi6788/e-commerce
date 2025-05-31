@@ -5,39 +5,39 @@ import { useParams, useRouter } from "next/navigation";
 
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
-import { BillboardsColumns, BillboardsColumnsType } from "@/components/BillboardsColumns";
+import { SizesColumns, SizesColumnsType } from "@/components/size/SizesColumns";
 import { Separator } from "@/components/ui/Separator";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/api-list";
 
-export const BillboardClient = ({
-  billboards,
+export const SizeClient = ({
+  sizes,
 }: {
-  billboards: BillboardsColumnsType[];
+  sizes: SizesColumnsType[];
 }) => {
   const router = useRouter();
   const params = useParams();
 
-  const handleNewBillboard = () => {
-    router.push(`/${params.storeId}/billboards/new`);
+  const handleNewSize = () => {
+    router.push(`/${params.storeId}/sizes/new`);
   };
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboard (${billboards.length})`}
-          description="Manage billboards for your store"
+          title={`Size (${sizes.length})`}
+          description="Manage sizes for your product"
         />
-        <Button onClick={handleNewBillboard}>
+        <Button onClick={handleNewSize}>
           <Plus className="h-4 w-4 mr-2" />
           Add New
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="label" columns={BillboardsColumns} data={billboards} />
-      <Heading title="API" description="API calls for Billboards"/>
+      <DataTable searchKey="name" columns={SizesColumns} data={sizes} />
+      <Heading title="API" description="API calls for Sizes"/>
       <Separator/>
-      <ApiList entityName="billboards" entityIdName="billboardId"/>
+      <ApiList entityName="sizes" entityIdName="sizeId"/>
     </>
   );
 };

@@ -1,6 +1,9 @@
+import axios from "axios";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { BillboardsColumnsType } from "./BillboardsColumns";
-import { Button } from "./ui/button";
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useState } from "react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,14 +12,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/drop-down-menu";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import axios from "axios";
-import AlertModal from "./modals/AlertModal";
+} from "@/components/ui/drop-down-menu";
+import { Button } from "@/components/ui/button";
+import AlertModal from "@/components/modals/AlertModal";
+import { ColorsColumnsType } from "@/components/color/ColorsColumns";
 
-export const CellAction = ({ data }: { data: BillboardsColumnsType }) => {
+export const CellAction = ({ data }: { data: ColorsColumnsType }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -25,18 +26,18 @@ export const CellAction = ({ data }: { data: BillboardsColumnsType }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Billboard Id copied to the clipboard.");
+    toast.success("Color Id copied to the clipboard.");
   };
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
       router.refresh();
-      toast.success("Billboard deleted.");
+      toast.success("Color deleted.");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you remove all categories using this billboard.");
+      toast.error("Make sure you remove all products using this color.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -67,7 +68,7 @@ export const CellAction = ({ data }: { data: BillboardsColumnsType }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/${params.storeId}/billboards/${data.id}`)
+                router.push(`/${params.storeId}/colors/${data.id}`)
               }
             >
               <Edit className="mr-2 h-4 w-4" />

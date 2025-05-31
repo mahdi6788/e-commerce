@@ -5,39 +5,42 @@ import { useParams, useRouter } from "next/navigation";
 
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
-import { SizesColumns, SizesColumnsType } from "@/components/SizesColumns";
 import { Separator } from "@/components/ui/Separator";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/api-list";
+import {
+  ProductsColumns,
+  ProductsColumnsType,
+} from "@/components/product/ProductsColumns";
 
-export const SizeClient = ({
-  sizes,
+export const ProductClient = ({
+  products,
 }: {
-  sizes: SizesColumnsType[];
+  products: ProductsColumnsType[];
 }) => {
   const router = useRouter();
   const params = useParams();
 
-  const handleNewSize = () => {
-    router.push(`/${params.storeId}/sizes/new`);
+  const handleNewProduct = () => {
+    router.push(`/${params.storeId}/products/new`);
   };
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Size (${sizes.length})`}
-          description="Manage sizes for your product"
+          title={`Product (${products.length})`}
+          description="Manage products for your store"
         />
-        <Button onClick={handleNewSize}>
+        <Button onClick={handleNewProduct}>
           <Plus className="h-4 w-4 mr-2" />
           Add New
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={SizesColumns} data={sizes} />
-      <Heading title="API" description="API calls for Sizes"/>
-      <Separator/>
-      <ApiList entityName="sizes" entityIdName="sizeId"/>
+      <DataTable searchKey="label" columns={ProductsColumns} data={products} />
+      <Heading title="API" description="API calls for Products" />
+      <Separator />
+      <ApiList entityName="products" entityIdName="productId" />
     </>
   );
 };

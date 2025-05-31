@@ -1,8 +1,8 @@
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import axios from "axios";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -13,11 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/drop-down-menu";
-import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/AlertModal";
-import { SizesColumnsType } from "@/components/SizesColumns";
+import { CategoriesColumnsType } from "@/components/category/CategoriesColumns";
+import { Button } from "@/components/ui/button";
 
-export const CellAction = ({ data }: { data: SizesColumnsType }) => {
+
+export const CellAction = ({ data }: { data: CategoriesColumnsType }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -26,18 +27,18 @@ export const CellAction = ({ data }: { data: SizesColumnsType }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Size Id copied to the clipboard.");
+    toast.success("Category Id copied to the clipboard.");
   };
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
       router.refresh();
-      toast.success("Size deleted.");
+      toast.success("Category deleted.");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you remove all products using this size.");
+      toast.error("Make sure you remove all products using this category.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -68,7 +69,7 @@ export const CellAction = ({ data }: { data: SizesColumnsType }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/${params.storeId}/sizes/${data.id}`)
+                router.push(`/${params.storeId}/categories/${data.id}`)
               }
             >
               <Edit className="mr-2 h-4 w-4" />

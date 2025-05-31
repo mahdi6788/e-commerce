@@ -1,5 +1,9 @@
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { Button } from "./ui/button";
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import axios from "axios";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,15 +12,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/drop-down-menu";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import axios from "axios";
-import AlertModal from "./modals/AlertModal";
-import { CategoriesColumnsType } from "@/components/CategoriesColumns";
+} from "@/components/ui/drop-down-menu";
+import { Button } from "@/components/ui/button";
+import AlertModal from "@/components/modals/AlertModal";
+import { ProductsColumnsType } from "@/components/product/ProductsColumns";
 
-export const CellAction = ({ data }: { data: CategoriesColumnsType }) => {
+export const CellAction = ({ data }: { data: ProductsColumnsType }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -25,18 +26,18 @@ export const CellAction = ({ data }: { data: CategoriesColumnsType }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Category Id copied to the clipboard.");
+    toast.success("Product Id copied to the clipboard.");
   };
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/products/${data.id}`);
       router.refresh();
-      toast.success("Category deleted.");
+      toast.success("Product deleted.");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you remove all products using this category.");
+      toast.error("Make sure you remove all categories using this product.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -67,7 +68,7 @@ export const CellAction = ({ data }: { data: CategoriesColumnsType }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/${params.storeId}/categories/${data.id}`)
+                router.push(`/${params.storeId}/products/${data.id}`)
               }
             >
               <Edit className="mr-2 h-4 w-4" />

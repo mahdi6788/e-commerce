@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/drop-down-menu";
 import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/AlertModal";
-import { ColorsColumnsType } from "@/components/ColorsColumns";
+import { SizesColumnsType } from "@/components/size/SizesColumns";
 
-export const CellAction = ({ data }: { data: ColorsColumnsType }) => {
+export const CellAction = ({ data }: { data: SizesColumnsType }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -26,18 +26,18 @@ export const CellAction = ({ data }: { data: ColorsColumnsType }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Color Id copied to the clipboard.");
+    toast.success("Size Id copied to the clipboard.");
   };
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
       router.refresh();
-      toast.success("Color deleted.");
+      toast.success("Size deleted.");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you remove all products using this color.");
+      toast.error("Make sure you remove all products using this size.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -68,7 +68,7 @@ export const CellAction = ({ data }: { data: ColorsColumnsType }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/${params.storeId}/colors/${data.id}`)
+                router.push(`/${params.storeId}/sizes/${data.id}`)
               }
             >
               <Edit className="mr-2 h-4 w-4" />
