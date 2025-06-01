@@ -37,7 +37,7 @@ export const ProductClient = ({
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="label" columns={ProductsColumns} data={products} />
+      <DataTable searchKey="name" columns={ProductsColumns} data={products} />
       <Heading title="API" description="API calls for Products" />
       <Separator />
       <ApiList entityName="products" entityIdName="productId" />
