@@ -1,4 +1,4 @@
-import ColorForm from "@/components/ColorForm";
+import ColorForm from "@/components/color/ColorForm";
 import prismadb from "@/lib/prismadb";
 
 export default async function NewColor({

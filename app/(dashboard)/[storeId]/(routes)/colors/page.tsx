@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
-import { ColorClient } from "@/components/ColorClient";
-import { ColorsColumnsType } from "@/components/ColorsColumns";
+import { ColorClient } from "@/components/color/ColorClient";
+import { ColorsColumnsType } from "@/components/color/ColorsColumns";
 
 export default async function ColorsPage({
   params,

@@ -1,4 +1,4 @@
-import CategoryForm from "@/components/CategoryForm";
+import CategoryForm from "@/components/category/CategoryForm";
 import prismadb from "@/lib/prismadb";
 
 export default async function NewCategory({
