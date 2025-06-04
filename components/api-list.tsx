@@ -1,3 +1,4 @@
+'use client'
 import { useParams } from "next/navigation";
 import ApiAlert from "./ApiAlert";
 import { useOrigin } from "@/hooks/use-origin";

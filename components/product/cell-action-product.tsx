@@ -1,3 +1,4 @@
+'use client'
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";

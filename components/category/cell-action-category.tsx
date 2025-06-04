@@ -1,3 +1,4 @@
+'use client'
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -24,6 +25,7 @@ export const CellAction = ({ data }: { data: CategoriesColumnsType }) => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);

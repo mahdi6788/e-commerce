@@ -1,3 +1,4 @@
+'use client'
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { BillboardsColumnsType } from "./BillboardsColumns";
 import { Button } from "../ui/button";
