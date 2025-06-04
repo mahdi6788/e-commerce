@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import ModalProvider from "@/providers/ModalProvider";
 import { geistMono, geistSans } from "@/lib/fonts";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,12 +21,19 @@ export default function RootLayout({
     <>
       <Toaster />
       <ClerkProvider>
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <ModalProvider />
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
           </body>
         </html>
       </ClerkProvider>
