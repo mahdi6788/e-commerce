@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { ImagePlus, TrashIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -20,9 +20,16 @@ export default function ImageUpload({
   disabled,
   value,
 }: ImageUploadProps) {
-  const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
-  };
+  const onUpload = (results: CloudinaryUploadWidgetResults) => {
+    if (
+      results.info &&
+      typeof results.info === "object" &&
+      "secure_url" in results.info &&
+      typeof results.info.secure_url === "string"
+    ) {
+      onChange(results.info.secure_url);
+    }
+  }
 
   const [isMounted, setIsMounted] = useState(false);
 
