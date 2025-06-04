@@ -1,6 +1,6 @@
-import { getSalesCount } from "@/actions/getSalesCount";
+// import { getSalesCount } from "@/actions/getSalesCount";
 import { getStockCount } from "@/actions/getStockCount";
-import { getTotalRevenue } from "@/actions/getTotalRevenue";
+// import { getTotalRevenue } from "@/actions/getTotalRevenue";
 import Heading from "@/components/Heading";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/Separator";
