@@ -18,8 +18,9 @@ import {
   CommandSeparator,
 } from "./ui/Command";
 
-type PopoverTriggerProps = 
-React.ComponentPropsWithoutRef< typeof PopoverTrigger >;
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<
+  typeof PopoverTrigger
+>;
 
 interface StoreSwitcherProps extends PopoverTriggerProps {
   stores: Store[];
@@ -39,7 +40,7 @@ export default function StoreSwitcher({
 
   const onStoreSelect = (store: { name: string; id: string }) => {
     setOpen(false);
-    router.push(`${store.id}`);
+    router.push(`/${store.id}`);
   };
 
   const handleAddNewStore = () => {
