@@ -1,11 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Source_Serif_4 } from "next/font/google";
 
-export const geistSans = Geist({
-  variable: "--font-geist-sans",
+export const font = Source_Serif_4({
   subsets: ["latin"],
-});
-
-export const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "400"
 });
