@@ -67,7 +67,7 @@ export default function StoreModal() {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="E-commerce"
+                    placeholder="Store name"
                     disabled={loading}
                   />
                 </FormControl>
